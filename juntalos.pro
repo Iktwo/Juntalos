@@ -14,7 +14,7 @@ HEADERS += \
     src/uivalues.h
 
 OTHER_FILES += \
-    qml/main.qml \
+    qml/*.qml \
     android/AndroidManifest.xml \
     android/src/com/iktwo/juntalos/Juntalos.java
 
