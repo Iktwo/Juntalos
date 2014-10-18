@@ -2,6 +2,7 @@
     <qresource prefix="/qml">
         <file>qml/main.qml</file>
         <file>qml/GameArea.qml</file>
+        <file>qml/Tile.qml</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="icon">resources/images/icon.svg</file>
