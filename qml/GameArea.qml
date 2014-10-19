@@ -1,15 +1,9 @@
 import QtQuick 2.3
 import QtGraphicalEffects 1.0
+import "."
 
 FocusScope {
     id: root
-
-    property var colors: [
-        "#1abc9c", "#16a085", "#f1c40f", "#f39c12",
-        "#2ecc71", "#27ae60", "#e67e22", "#d35400",
-        "#3498db", "#2980b9", "#e74c3c", "#c0392b",
-        "#9b59b6", "#8e44ad", "#34495e", "#2c3e50",
-        "#95a5a6", "#7f8c8d"]
 
     property var activeColors: []
 
@@ -37,11 +31,9 @@ FocusScope {
 
         var newColors = []
         while (newColors.length < 6) {
-            var randomColor = root.colors[Math.floor((Math.random() * root.colors.length))]
-            if (newColors.indexOf(randomColor) === -1) {
-                console.log("RANDOM COLOR:", randomColor)
+            var randomColor = Colors.colors[Math.floor((Math.random() * Colors.colors.length))]
+            if (newColors.indexOf(randomColor) === -1)
                 newColors.push(randomColor)
-            }
         }
 
         root.activeColors = newColors
@@ -54,7 +46,7 @@ FocusScope {
     onRowsChanged: reset()
     Component.onCompleted: reset()
 
-    Flow {
+    ColorButtons {
         id: flowColors
 
         anchors {
@@ -62,23 +54,7 @@ FocusScope {
             horizontalCenter: parent.horizontalCenter
         }
 
-        spacing: 24
-
-        width: 48 * 3 + (24 * 2)
-
-        Repeater {
-            model: 6
-            Tile {
-                height: 48
-                width: 48
-                tileColor: root.activeColors[index]
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: console.log("TODO: change to this color")
-                }
-            }
-        }
+        colors: root.activeColors
     }
 
     Item {

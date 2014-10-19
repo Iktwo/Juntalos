@@ -3,6 +3,10 @@
         <file>qml/main.qml</file>
         <file>qml/GameArea.qml</file>
         <file>qml/Tile.qml</file>
+        <file>qml/ThemeSelector.qml</file>
+        <file>qml/Colors.qml</file>
+        <file>qml/qmldir</file>
+        <file>qml/ColorButtons.qml</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="icon">resources/images/icon.svg</file>

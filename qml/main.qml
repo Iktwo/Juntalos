@@ -26,19 +26,28 @@ ApplicationWindow {
         id: stackview
         anchors.fill: parent
         focus: true
+        initialItem: gameArea
 
         Keys.onReleased: {
             if (event.key === Qt.Key_Back) {
-                if (stackview.depth > 1)
+                if (stackview.depth > 1) {
                     stackview.pop()
-
-                event.accepted = true
+                    event.accepted = true
+                } else {
+                    event.accepted = false
+                }
             }
         }
     }
 
-    GameArea {
-        anchors.fill: parent
+    Component {
+        id: gameArea
+        GameArea { }
+    }
+
+    Component {
+        id: themeSelector
+        ThemeSelector { }
     }
 }
 
