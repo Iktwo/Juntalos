@@ -81,7 +81,7 @@ FocusScope {
             delegate: Tile {
                 height: GridView.view.height / root.rows
                 width: GridView.view.width / root.columns
-                tileColor: root.activeColors[root.values[index]]
+                color: root.activeColors[root.values[index]]
 
                 MouseArea {
                     anchors.fill: parent
@@ -112,7 +112,7 @@ FocusScope {
             delegate: Tile {
                 height: GridView.view.height / root.rows
                 width: GridView.view.width / root.columns
-                tileColor: root.activeColors[root.values[index]]
+                color: root.activeColors[root.values[index]]
                 visible: ownedByComputer.indexOf(index) !== -1
 
                 Rectangle {
@@ -152,7 +152,7 @@ FocusScope {
             delegate: Tile {
                 height: GridView.view.height / root.rows
                 width: GridView.view.width / root.columns
-                tileColor: root.activeColors[root.values[index]]
+                color: root.activeColors[root.values[index]]
                 visible: ownedByPlayer.indexOf(index) !== -1
             }
         }

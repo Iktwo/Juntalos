@@ -4,6 +4,7 @@ Flow {
     id: root
 
     property var colors
+    signal tileClicked(int index, string value)
 
     spacing: 16
     width: 48 * 3 + (24 * 2)
@@ -13,11 +14,11 @@ Flow {
         Tile {
             height: 48
             width: 48
-            tileColor: root.colors !== undefined && root.colors.length > index ? root.colors[index] : "white"
+            color: root.colors !== undefined && root.colors.length > index ? root.colors[index] : "white"
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: console.log("TODO: change to this color")
+                onClicked: root.tileClicked(index, root.colors !== undefined && root.colors.length > index ? root.colors[index] : "white")
             }
         }
     }

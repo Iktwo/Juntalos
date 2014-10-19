@@ -19,20 +19,32 @@ Item {
 
         Repeater {
             model: Colors.colors.length
-            Tile {
+            Rectangle {
                 height: 48
                 width: 48
-                tileColor: Colors.colors[index]
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        if (root.activeColors.length < 6 && root.activeColors.indexOf(Colors.colors[index]) === -1) {
-                            console.log(root.activeColors)
-                            var colors = root.activeColors
-                            colors.push(Colors.colors[index])
-                            root.activeColors = colors
-                            /// TODO: init animation
+                Tile {
+                    id: tile
+
+                    height: parent.height
+                    width: parent.width
+                    antialiasing: true
+
+                    Behavior on radius { NumberAnimation { easing.type: "InOutCubic" } }
+
+                    color: Colors.colors[index]
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            if (root.activeColors.length < 6 && root.activeColors.indexOf(Colors.colors[index]) === -1) {
+                                console.log(root.activeColors)
+                                var colors = root.activeColors
+                                colors.push(Colors.colors[index])
+                                root.activeColors = colors
+                                tile.radius = tile.width / 2
+                                /// TODO: init animation
+                            }
                         }
                     }
                 }
@@ -49,5 +61,8 @@ Item {
         }
 
         colors: root.activeColors
+        onTileClicked: {
+            console.log("TILE:", index, "COLOR:", value)
+        }
     }
 }

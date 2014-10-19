@@ -1,16 +1,6 @@
 import QtQuick 2.3
 
-Item {
-    property color tileColor
-
-    height: 100
-    width: 100
-
-    Rectangle {
-        anchors.fill: parent
-        color: tileColor
-    }
-
+Rectangle {
     Rectangle {
         anchors {
             fill: parent
@@ -18,10 +8,11 @@ Item {
         }
 
         border {
-            color: Qt.lighter(tileColor)
+            color: Qt.lighter(parent.color)
             width: 2
         }
 
+        radius: parent.radius
         color: "#00000000"
     }
 }
