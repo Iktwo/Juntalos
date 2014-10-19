@@ -7,8 +7,8 @@ FocusScope {
     property var colors: ["#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#e67e22", "#e74c3c"]
 
     property var values: []
-    property var ownedByPlayer: [2, 4, 5, 6, 7, 8]
-    property var ownedByComputer: [9, 10, 11, 12]
+    property var ownedByPlayer: []
+    property var ownedByComputer: []
 
     property int columns: 5
     property int rows: 5
@@ -45,6 +45,15 @@ FocusScope {
             height: GridView.view.height / root.rows
             width: GridView.view.width / root.columns
             tileColor: root.colors[root.values[index]]
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    var array = root.ownedByPlayer
+                    array.push(index)
+                    root.ownedByPlayer = array
+                }
+            }
         }
     }
 
@@ -87,9 +96,7 @@ FocusScope {
         source: gridViewInnerShadow
         fast: true
         spread: 0.55
-        visible: shadowsVisible
     }
-
 
     GridView {
         id: gridViewDropShadow
@@ -104,7 +111,6 @@ FocusScope {
         interactive: false
 
         model: gridView.model
-        visible: false
 
         delegate: Tile {
             height: GridView.view.height / root.rows
@@ -124,13 +130,5 @@ FocusScope {
         source: gridViewDropShadow
         spread: 0.55
         fast: true
-
-        visible: shadowsVisible
-    }
-
-    property bool shadowsVisible: true
-    MouseArea {
-        anchors.fill: parent
-        onClicked: shadowsVisible ^= 1
     }
 }
