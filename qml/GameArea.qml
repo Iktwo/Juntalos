@@ -36,106 +36,143 @@ FocusScope {
     onRowsChanged: reset()
     Component.onCompleted: reset()
 
-    GridView {
-        id: gridView
+    Flow {
+        id: flowColors
 
-        anchors.centerIn: parent
+        anchors {
+            bottom: parent.bottom; bottomMargin: 8
+            horizontalCenter: parent.horizontalCenter
+        }
 
-        height: Math.min(root.height, root.width)
-        width: Math.min(root.height, root.width)
+        spacing: 24
 
-        cellHeight: height / root.rows
-        cellWidth: width / root.columns
-        interactive: false
+        width: 48 * 3 + (24 * 2)
 
-        delegate: Tile {
-            height: GridView.view.height / root.rows
-            width: GridView.view.width / root.columns
-            tileColor: root.colors[root.values[index]]
+        Repeater {
+            model: 6
+            Tile {
+                height: 48
+                width: 48
+                tileColor: root.colors[index]
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    var array = root.ownedByPlayer
-                    array.push(index)
-                    root.ownedByPlayer = array
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: console.log("TODO: change to this color")
                 }
             }
         }
     }
 
-    GridView {
-        id: gridViewInnerShadow
+    Item {
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+            bottom: flowColors.top
+            margins: 8
+        }
 
-        anchors.centerIn: parent
+        GridView {
+            id: gridView
 
-        height: Math.min(root.height, root.width)
-        width: Math.min(root.height, root.width)
+            anchors.centerIn: parent
 
-        cellHeight: height / root.rows
-        cellWidth: width / root.columns
-        interactive: false
+            height: Math.min(parent.height, parent.width)
+            width: Math.min(parent.height, parent.width)
 
-        model: gridView.model
-        visible: false
+            cellHeight: height / root.rows
+            cellWidth: width / root.columns
+            interactive: false
 
-        delegate: Tile {
-            height: GridView.view.height / root.rows
-            width: GridView.view.width / root.columns
-            tileColor: root.colors[root.values[index]]
-            visible: ownedByComputer.indexOf(index) !== -1
+            delegate: Tile {
+                height: GridView.view.height / root.rows
+                width: GridView.view.width / root.columns
+                tileColor: root.colors[root.values[index]]
 
-            Rectangle {
-                anchors.fill: parent
-                color: "black"
-                opacity: 0.05
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        var array = root.ownedByPlayer
+                        array.push(index)
+                        root.ownedByPlayer = array
+                    }
+                }
             }
         }
-    }
 
-    InnerShadow {
-        anchors.fill: gridViewInnerShadow
-        horizontalOffset: 0//6
-        verticalOffset: 0//6
-        radius: 18.0
-        samples: 16
-        color: "#A0000000"
-        source: gridViewInnerShadow
-        fast: true
-        spread: 0.55
-    }
+        GridView {
+            id: gridViewInnerShadow
 
-    GridView {
-        id: gridViewDropShadow
+            anchors.centerIn: parent
 
-        anchors.centerIn: parent
+            height: Math.min(parent.height, parent.width)
+            width: Math.min(parent.height, parent.width)
 
-        height: Math.min(root.height, root.width)
-        width: Math.min(root.height, root.width)
+            cellHeight: height / root.rows
+            cellWidth: width / root.columns
+            interactive: false
 
-        cellHeight: height / root.rows
-        cellWidth: width / root.columns
-        interactive: false
+            model: gridView.model
+            visible: false
 
-        model: gridView.model
+            delegate: Tile {
+                height: GridView.view.height / root.rows
+                width: GridView.view.width / root.columns
+                tileColor: root.colors[root.values[index]]
+                visible: ownedByComputer.indexOf(index) !== -1
 
-        delegate: Tile {
-            height: GridView.view.height / root.rows
-            width: GridView.view.width / root.columns
-            tileColor: root.colors[root.values[index]]
-            visible: ownedByPlayer.indexOf(index) !== -1
+                Rectangle {
+                    anchors.fill: parent
+                    color: "black"
+                    opacity: 0.05
+                }
+            }
         }
-    }
 
-    DropShadow {
-        anchors.fill: gridViewDropShadow
-        horizontalOffset: 0
-        verticalOffset: 0
-        radius: 18
-        samples: 16
-        color: "#A0000000"
-        source: gridViewDropShadow
-        spread: 0.55
-        fast: true
+        InnerShadow {
+            anchors.fill: gridViewInnerShadow
+            horizontalOffset: 0//6
+            verticalOffset: 0//6
+            radius: 18.0
+            samples: 16
+            color: "#A0000000"
+            source: gridViewInnerShadow
+            fast: true
+            spread: 0.55
+        }
+
+        GridView {
+            id: gridViewDropShadow
+
+            anchors.centerIn: parent
+
+            height: Math.min(parent.height, parent.width)
+            width: Math.min(parent.height, parent.width)
+
+            cellHeight: height / root.rows
+            cellWidth: width / root.columns
+            interactive: false
+
+            model: gridView.model
+
+            delegate: Tile {
+                height: GridView.view.height / root.rows
+                width: GridView.view.width / root.columns
+                tileColor: root.colors[root.values[index]]
+                visible: ownedByPlayer.indexOf(index) !== -1
+            }
+        }
+
+        DropShadow {
+            anchors.fill: gridViewDropShadow
+            horizontalOffset: 0
+            verticalOffset: 0
+            radius: 18
+            samples: 16
+            color: "#A0000000"
+            source: gridViewDropShadow
+            spread: 0.55
+            fast: true
+        }
     }
 }
