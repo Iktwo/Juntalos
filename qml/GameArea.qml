@@ -14,14 +14,21 @@ FocusScope {
     property int rows: 5
 
     function reset() {
-        root.values = []
+        var array = []
 
         for (var i = 0; i < columns; i++) {
             for (var j = 0; j < rows; j++) {
-                root.values.push(Math.floor(Math.random() * 6))
+                array.push(Math.floor(Math.random() * 6))
             }
         }
 
+        /// If initial piece is the same color for player and computer reset
+        if (array[columns - 1] === array[(rows - 1) * columns]) {
+            root.reset()
+            return
+        }
+
+        root.values = array
         gridView.model = root.columns * root.rows
     }
 
