@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 1.2
 import "."
 
 FocusScope {
@@ -11,20 +12,27 @@ FocusScope {
     property var ownedByPlayer: []
     property var ownedByComputer: []
 
-    property int columns: 5
-    property int rows: 5
+    property int columns: 100
+    property int rows: 100
+
+    property int currentPlayerColor: values[leftTopCorner]
+    property int currentComputerColor: values[bottomRightCorner]
+
+    property int leftTopCorner: columns - 1
+    property int bottomRightCorner: (rows - 1) * columns
 
     function reset() {
+        console.time("FunctionReset")
         var array = []
 
         for (var i = 0; i < columns; i++) {
             for (var j = 0; j < rows; j++) {
-                array.push(Math.floor(Math.random() * 6))
+                array.push(Math.floor(Math.random() * 2))//6))
             }
         }
 
         /// If initial piece is the same color for player and computer reset
-        if (array[columns - 1] === array[(rows - 1) * columns]) {
+        if (array[leftTopCorner] === array[bottomRightCorner]) {
             root.reset()
             return
         }
@@ -40,6 +48,47 @@ FocusScope {
 
         root.values = array
         gridView.model = root.columns * root.rows
+        console.timeEnd("FunctionReset")
+    }
+
+    /// TODO: Check only frontier
+    function groupForIndex(index) {
+        console.time("FunctionGroupForIndex")
+        var result = [index]
+        var toCheck = neighboursForIndex(index)
+
+        while (toCheck.length > 0) {
+            var value = toCheck.shift()
+            if (result.indexOf(value) === -1) {
+                result.push(value)
+                var neighbours = neighboursForIndex(value)
+                for (var i = 0; i < neighbours.length; i++) {
+                    if (result.indexOf(neighbours[i]) === -1 && toCheck.indexOf(neighbours[i]) === -1)
+                        toCheck.push(neighbours[i])
+                }
+            }
+        }
+        console.timeEnd("FunctionGroupForIndex")
+        console.log("TOTAL:", result.length, "RESULTS:", result)
+    }
+
+    function neighboursForIndex(index) {
+        /// Check ← ↑ → ↓
+        var result = []
+
+        if (index % columns > 0 && values[index] === values[index - 1])
+            result.push(index - 1)
+
+        if (index % columns < columns - 1 && values[index] === values[index + 1])
+            result.push(index + 1)
+
+        if (index > columns - 1 &&  values[index] === values[index - columns])
+            result.push(index - columns)
+
+        if (index < (columns * rows) - columns &&  values[index] === values[index + columns])
+            result.push(index + columns)
+
+        return result
     }
 
     onColumnsChanged: reset()
@@ -83,12 +132,18 @@ FocusScope {
                 width: GridView.view.width / root.columns
                 color: root.activeColors[root.values[index]]
 
+                Text {
+                    anchors.centerIn: parent
+                    color: "WHITE"
+                    text: index
+                    font.pixelSize: 22
+                    visible: textVisible
+                }
+
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        var array = root.ownedByPlayer
-                        array.push(index)
-                        root.ownedByPlayer = array
+                        groupForIndex(index)
                     }
                 }
             }
@@ -125,8 +180,8 @@ FocusScope {
 
         InnerShadow {
             anchors.fill: gridViewInnerShadow
-            horizontalOffset: 0//6
-            verticalOffset: 0//6
+            horizontalOffset: 0
+            verticalOffset: 0
             radius: 18.0
             samples: 16
             color: "#A0000000"
@@ -169,4 +224,38 @@ FocusScope {
             fast: true
         }
     }
+
+    Row {
+        width: parent.width
+
+        Button {
+            anchors.top: parent.top
+            text: "Reset"
+            onClicked: {
+                reset()
+            }
+        }
+
+        Button {
+            anchors.top: parent.top
+            text: "Show Index"
+            onClicked: {
+                textVisible = !textVisible
+            }
+        }
+
+        Button {
+            anchors.top: parent.top
+            text: "Set Same"
+            onClicked: {
+                var xxx = values
+                for (var i = 0; i < xxx.length; i++)
+                    xxx[i] = 1
+
+                values = xxx
+            }
+        }
+    }
+
+    property bool textVisible: false
 }
