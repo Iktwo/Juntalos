@@ -15,11 +15,24 @@ FocusScope {
     property int columns: 100
     property int rows: 100
 
-    property int currentPlayerColor: values[leftTopCorner]
-    property int currentComputerColor: values[bottomRightCorner]
+    property int currentPlayerColor: values[rightTopCorner]
+    property int currentComputerColor: values[bottomLeftCorner]
 
-    property int leftTopCorner: columns - 1
-    property int bottomRightCorner: (rows - 1) * columns
+    property int rightTopCorner: columns - 1
+    property int bottomLeftCorner: (rows - 1) * columns
+
+    function getDifferentNumber(number, limit) {
+        if (limit < 2) {
+            console.warn("Should not call getDifferentNumber with limit less than 2")
+            return number
+        }
+
+        var newNumber = Math.floor(Math.random() * limit)
+        if (newNumber !== number)
+            return newNumber
+        else
+            return getDifferentNumber(number, limit)
+    }
 
     function reset() {
         console.time("FunctionReset")
@@ -32,9 +45,8 @@ FocusScope {
         }
 
         /// If initial piece is the same color for player and computer reset
-        if (array[leftTopCorner] === array[bottomRightCorner]) {
-            root.reset()
-            return
+        if (array[rightTopCorner] === array[bottomLeftCorner]) {
+            array[rightTopCorner] = getDifferentNumber(array[rightTopCorner], root.colors)
         }
 
         var newColors = []
@@ -45,7 +57,6 @@ FocusScope {
         }
 
         root.activeColors = newColors
-
         root.values = array
         gridView.model = root.columns * root.rows
         console.timeEnd("FunctionReset")
