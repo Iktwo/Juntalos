@@ -21,6 +21,8 @@ FocusScope {
     property int rightTopCorner: columns - 1
     property int bottomLeftCorner: (rows - 1) * columns
 
+    property int colors: 2
+
     function getDifferentNumber(number, limit) {
         if (limit < 2) {
             console.warn("Should not call getDifferentNumber with limit less than 2")
