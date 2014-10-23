@@ -21,7 +21,7 @@ FocusScope {
     property int rightTopCorner: columns - 1
     property int bottomLeftCorner: (rows - 1) * columns
 
-    property int colors: 2
+    property int colors: Math.min(6, Colors.colors.length)
 
     function getDifferentNumber(number, limit) {
         if (limit < 2) {
@@ -42,7 +42,7 @@ FocusScope {
 
         for (var i = 0; i < columns; i++) {
             for (var j = 0; j < rows; j++) {
-                array.push(Math.floor(Math.random() * 2))//6))
+                array.push(Math.floor(Math.random() * root.colors))
             }
         }
 
