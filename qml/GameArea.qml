@@ -12,8 +12,8 @@ FocusScope {
     property var ownedByPlayer: []
     property var ownedByComputer: []
 
-    property int columns: 100
-    property int rows: 100
+    property int columns: 5
+    property int rows: 5
 
     property int currentPlayerColor: values[rightTopCorner]
     property int currentComputerColor: values[bottomLeftCorner]
@@ -21,7 +21,7 @@ FocusScope {
     property int rightTopCorner: columns - 1
     property int bottomLeftCorner: (rows - 1) * columns
 
-    property int colors: Math.min(6, Colors.colors.length)
+    property int colors: Math.min(3, Colors.colors.length)
 
     function getDifferentNumber(number, limit) {
         if (limit < 2) {
@@ -86,6 +86,7 @@ FocusScope {
     }
 
     function neighboursForIndex(index) {
+        console.count("neighboursForIndex")
         /// Check ← ↑ → ↓
         var result = []
 
@@ -117,6 +118,8 @@ FocusScope {
         }
 
         colors: root.activeColors
+        playerTile: root.currentPlayerColor
+        computerTile: root.currentComputerColor
     }
 
     Item {
