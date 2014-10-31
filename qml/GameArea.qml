@@ -120,6 +120,17 @@ FocusScope {
         colors: root.activeColors
         playerTile: root.currentPlayerColor
         computerTile: root.currentComputerColor
+
+        onTileClicked: {
+            var values = root.values
+            for (var i = 0; i < ownedByPlayer; i++) {
+                values[ownedByPlayer[i]] = value
+            }
+
+            root.values = values
+
+            console.log("Index", index, "Value", value)
+        }
     }
 
     Item {
