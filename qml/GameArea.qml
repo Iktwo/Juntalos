@@ -21,7 +21,7 @@ FocusScope {
     property int rightTopCorner: columns - 1
     property int bottomLeftCorner: (rows - 1) * columns
 
-    property int colors: Math.min(3, Colors.colors.length)
+    property int colors: Math.min(6, Colors.colors.length)
 
     function getDifferentNumber(number, limit) {
         if (limit < 2) {
