@@ -64,6 +64,8 @@ FocusScope {
         root.values = array
         gridView.model = root.columns * root.rows
         console.timeEnd("FunctionReset")
+
+        ownedByPlayer = groupForIndex(bottomLeftCorner)
     }
 
     /// TODO: Check only frontier
@@ -83,8 +85,11 @@ FocusScope {
                 }
             }
         }
+
         console.timeEnd("FunctionGroupForIndex")
         console.log("TOTAL:", result.length, "RESULTS:", result)
+
+        return result
     }
 
     function neighboursForIndex(index) {
@@ -125,11 +130,13 @@ FocusScope {
 
         onTileClicked: {
             var values = root.values
-            for (var i = 0; i < ownedByPlayer; i++) {
-                values[ownedByPlayer[i]] = value
+            for (var i = 0; i < ownedByPlayer.length; i++) {
+                values[ownedByPlayer[i]] = index
             }
 
             root.values = values
+
+            ownedByPlayer = groupForIndex(bottomLeftCorner)
 
             console.log("Index", index, "Value", value)
         }
