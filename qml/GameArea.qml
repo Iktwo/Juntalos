@@ -23,6 +23,8 @@ FocusScope {
 
     property int colors: Math.min(6, Colors.colors.length)
 
+    /// TODO: what if surrounded by enemy
+
     function getDifferentNumber(number, limit) {
         if (limit < 2) {
             console.warn("Should not call getDifferentNumber with limit less than 2")
