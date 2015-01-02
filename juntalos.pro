@@ -23,4 +23,3 @@ RESOURCES += resources.qrc
 include(deployment.pri)
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
